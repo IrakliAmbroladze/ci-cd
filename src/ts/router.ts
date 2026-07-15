@@ -6,7 +6,7 @@ import CatalogPage from './pages/catalog-page';
 import ErrorPage from './pages/error-page';
 import PlantPage from './pages/plant-page';
 
-const BASE_PATH = process.env.BASE_PATH || '';
+const BASE_PATH = new URL(document.baseURI).pathname.replace(/\/$/, '');
 
 function normalizePathname(pathname: string): string {
   if (BASE_PATH && pathname.startsWith(BASE_PATH)) {
