@@ -6,6 +6,16 @@ import CatalogPage from './pages/catalog-page';
 import ErrorPage from './pages/error-page';
 import PlantPage from './pages/plant-page';
 
+const BASE_PATH = process.env.BASE_PATH || '';
+
+function normalizePathname(pathname: string): string {
+  if (BASE_PATH && pathname.startsWith(BASE_PATH)) {
+    const stripped = pathname.slice(BASE_PATH.length);
+    return stripped === '' ? '/' : stripped;
+  }
+  return pathname;
+}
+
 class Router {
   static catalogPage: CatalogPage;
   static cartPage: CartPage;
@@ -21,7 +31,8 @@ class Router {
 
   static render(pathname: string) {
     // console.log('render:', pathname);
-    switch (pathname) {
+    const normalized = normalizePathname(pathname);
+    switch (normalized) {
       case PagesList.catalogPage:
         Router.catalogPage.draw();
         break;
