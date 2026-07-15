@@ -4,7 +4,6 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const EslintPlugin = require('eslint-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const webpack = require('webpack');
 
 const mode = process.env.NODE_ENV || 'development';
 const devMode = mode === 'development';
@@ -18,7 +17,7 @@ module.exports = {
   entry: './src/index.ts',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    publicPath: devMode ? '/' : '/ci-cd/',
+    publicPath: './',
     clean: true,
     filename: '[name].[contenthash].js',
     assetModuleFilename: 'assets/[name][ext]',
@@ -30,9 +29,6 @@ module.exports = {
     hot: true,
   },
   plugins: [
-    new webpack.DefinePlugin({
-      'process.env.BASE_PATH': JSON.stringify(devMode ? '' : '/ci-cd'),
-    }),
     new HtmlWebpackPlugin({
       template: 'src/index.html',
     }),
