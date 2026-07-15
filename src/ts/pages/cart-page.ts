@@ -4,7 +4,7 @@ import Cart from '../components/cart';
 import CartList from '../components/cartList';
 import Page from './page';
 import { PageInfo } from '../base/types';
-import Router from '../router';
+import Router, { BASE_PATH } from '../router';
 import { PagesList } from '../base/enums';
 import plants from '../../data/plants.json';
 
@@ -118,7 +118,11 @@ class CartPage extends Page {
 
   private setQuery() {
     const currentUrl = new URL(window.location.href);
-    if (currentUrl.pathname !== PagesList.cartPage) return;
+    const normalizedPathname =
+      BASE_PATH && currentUrl.pathname.startsWith(BASE_PATH)
+        ? currentUrl.pathname.slice(BASE_PATH.length)
+        : currentUrl.pathname;
+    if (normalizedPathname !== PagesList.cartPage) return;
     currentUrl.searchParams.set('cart', JSON.stringify(this.cart));
     currentUrl.searchParams.set('pageInfo', JSON.stringify(this.pageInfo));
     window.history.replaceState({}, currentUrl.toString(), currentUrl);
